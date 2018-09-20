@@ -7,7 +7,9 @@ export class AppContextProvider extends Component {
     constructor() {
         super()
         this.state = {
-            todos: []
+            todos: [],
+            user: {},
+            token: ""
         }
     }
 
@@ -59,6 +61,17 @@ export class AppContextProvider extends Component {
             })
     }
 
+    signup = (userInfo) => {
+        axios.post("/auth/signup", userInfo)
+            .then(response => {
+                this.setState({
+                    user: response.data.user,
+                    token: response.data.token
+                })
+            })
+            .catch(err => console.error(err));
+    }
+
     render() {
         return (
             <AppContext.Provider
@@ -67,6 +80,7 @@ export class AppContextProvider extends Component {
                     addTodo: this.addTodo,
                     editTodo: this.editTodo,
                     deleteTodo: this.deleteTodo,
+                    signup: this.signup,
                     ...this.state
                 }}
             >
