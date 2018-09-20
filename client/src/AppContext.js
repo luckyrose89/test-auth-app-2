@@ -8,8 +8,8 @@ export class AppContextProvider extends Component {
         super()
         this.state = {
             todos: [],
-            user: {},
-            token: ""
+            user: JSON.parse(localStorage.getItem("user")) || {},
+            token: localStorage.getItem("token") || ""
         }
     }
 
@@ -64,10 +64,13 @@ export class AppContextProvider extends Component {
     signup = (userInfo) => {
         axios.post("/auth/signup", userInfo)
             .then(response => {
+                const { user, token } = response.data
+                localStorage.setItem("token", token);
+                localStorage.setItem("user", JSON.stringify(user));
                 this.setState({
-                    user: response.data.user,
-                    token: response.data.token
-                })
+                    user,
+                    token
+                });
             })
             .catch(err => console.error(err));
     }
