@@ -75,6 +75,29 @@ export class AppContextProvider extends Component {
             .catch(err => console.error(err));
     }
 
+    login = (credentials) => {
+        axios.post("/auth/login", credentials)
+            .then(response => {
+                const { token, user } = response.data;
+                localStorage.setItem("token", token)
+                localStorage.setItem("user", JSON.stringify(user))
+                this.setState({
+                    user,
+                    token
+                });
+            })
+            .catch(err => console.error(err));
+    }
+
+    logout = () => {
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        this.setState({
+            user: {},
+            token: ""
+        })
+    }
+
     render() {
         return (
             <AppContext.Provider
@@ -84,6 +107,8 @@ export class AppContextProvider extends Component {
                     editTodo: this.editTodo,
                     deleteTodo: this.deleteTodo,
                     signup: this.signup,
+                    login: this.login,
+                    logout: this.logout,
                     ...this.state
                 }}
             >
