@@ -107,6 +107,17 @@ export class AppContextProvider extends Component {
         })
     }
 
+    signup = (userInfo) => {
+        axios.post("/auth/signup", userInfo)
+            .then(response => {
+                this.setState({
+                    user: response.data.user,
+                    token: response.data.token
+                })
+            })
+            .catch(err => console.error(err));
+    }
+
     render() {
         return (
             <AppContext.Provider
