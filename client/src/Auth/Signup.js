@@ -27,7 +27,7 @@ class Signup extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.signup(this.state)
-            .then(() => this.clearInputs())
+            .then(() => this.props.history.push("/todos"))
     }
 
     render() {
