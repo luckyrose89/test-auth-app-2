@@ -78,6 +78,7 @@ export class AppContextProvider extends Component {
                     user,
                     token
                 });
+                return response;
             })
     }
 
@@ -92,6 +93,7 @@ export class AppContextProvider extends Component {
                     token
                 });
                 this.getTodos();
+                return response;
             })
     }
 
