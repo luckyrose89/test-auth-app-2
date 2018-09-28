@@ -26,8 +26,8 @@ class Signup extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.signup(this.state);
-        this.clearInputs();
+        this.props.signup(this.state)
+            .then(() => this.clearInputs())
     }
 
     render() {
