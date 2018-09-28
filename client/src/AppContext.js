@@ -1,5 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
+const todoAxios = axios.create();
+
+todoAxios.interceptors.request.use((config)=>{
+    const token = localStorage.getItem("token");
+    config.headers.Authorization = `Bearer ${token}`;
+    return config;
+})
 
 const AppContext = React.createContext();
 
@@ -18,7 +25,7 @@ export class AppContextProvider extends Component {
     }
 
     getTodos = () => {
-        return axios.get("/api/todo")
+        return todoAxios.get("/api/todo")
             .then(response => {
                 this.setState({ todos: response.data });
                 return response;
@@ -26,7 +33,7 @@ export class AppContextProvider extends Component {
     }
 
     addTodo = (newTodo) => {
-        return axios.post("/api/todo/", newTodo)
+        return todoAxios.post("/api/todo/", newTodo)
             .then(response => {
                 this.setState(prevState => {
                     return { todos: [...prevState.todos, response.data] }
@@ -36,7 +43,7 @@ export class AppContextProvider extends Component {
     }
 
     editTodo = (todoId, todo) => {
-        return axios.put(`/api/todo/${todoId}`, todo)
+        return todoAxios.put(`/api/todo/${todoId}`, todo)
             .then(response => {
                 this.setState(prevState => {
                     const updatedTodos = prevState.todos.map(todo => {
@@ -49,7 +56,7 @@ export class AppContextProvider extends Component {
     }
 
     deleteTodo = (todoId) => {
-        return axios.delete(`/api/todo/${todoId}`)
+        return todoAxios.delete(`/api/todo/${todoId}`)
             .then(response => {
                 this.setState(prevState => {
                     const updatedTodos = prevState.todos.filter(todo => {
@@ -62,7 +69,7 @@ export class AppContextProvider extends Component {
     }
 
     signup = (userInfo) => {
-        axios.post("/auth/signup", userInfo)
+        todoAxios.post("/auth/signup", userInfo)
             .then(response => {
                 const { user, token } = response.data
                 localStorage.setItem("token", token);
@@ -76,7 +83,7 @@ export class AppContextProvider extends Component {
     }
 
     login = (credentials) => {
-        axios.post("/auth/login", credentials)
+        todoAxios.post("/auth/login", credentials)
             .then(response => {
                 const { token, user } = response.data;
                 localStorage.setItem("token", token)
@@ -85,6 +92,7 @@ export class AppContextProvider extends Component {
                     user,
                     token
                 });
+                this.getTodos();
             })
             .catch(err => console.error(err));
     }
@@ -93,6 +101,7 @@ export class AppContextProvider extends Component {
         localStorage.removeItem("user");
         localStorage.removeItem("token");
         this.setState({
+            todos: [],
             user: {},
             token: ""
         })
