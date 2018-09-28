@@ -31,21 +31,22 @@ class Signup extends Component {
     }
 
     render() {
-
         return (
             <div className="form-wrapper">
                 <form onSubmit={this.handleSubmit}>
                     <h3>Sign Up</h3>
-                    <input onChange={this.handleChange}
-                           value={this.state.username}
-                           name="username"
-                           type="text"
-                           placeholder="Username"/>
-                    <input onChange={this.handleChange}
-                           value={this.state.password}
-                           name="password"
-                           type="password"
-                           placeholder="Password"/>
+                    <input
+                        onChange={this.handleChange}
+                        value={this.state.username}
+                        name="username"
+                        type="text"
+                        placeholder="Username"/>
+                    <input
+                        onChange={this.handleChange}
+                        value={this.state.password}
+                        name="password"
+                        type="password"
+                        placeholder="Password"/>
                     <button type="submit">Create Account</button>
                 </form>
             </div>
