@@ -69,7 +69,7 @@ export class AppContextProvider extends Component {
     }
 
     signup = (userInfo) => {
-        todoAxios.post("/auth/signup", userInfo)
+        return todoAxios.post("/auth/signup", userInfo)
             .then(response => {
                 const { user, token } = response.data
                 localStorage.setItem("token", token);
@@ -79,11 +79,10 @@ export class AppContextProvider extends Component {
                     token
                 });
             })
-            .catch(err => console.error(err));
     }
 
     login = (credentials) => {
-        todoAxios.post("/auth/login", credentials)
+        return todoAxios.post("/auth/login", credentials)
             .then(response => {
                 const { token, user } = response.data;
                 localStorage.setItem("token", token)
@@ -94,7 +93,6 @@ export class AppContextProvider extends Component {
                 });
                 this.getTodos();
             })
-            .catch(err => console.error(err));
     }
 
     logout = () => {
