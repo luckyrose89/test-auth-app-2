@@ -27,7 +27,7 @@ class LoginForm extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.login(this.state)
-            .then(() => this.clearInputs())
+            .then(() => this.props.history.push("/todos"))
     }
 
     render() {
